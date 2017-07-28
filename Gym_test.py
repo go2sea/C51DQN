@@ -47,6 +47,7 @@ def BreakOut_C51DQN(index, env):
             state = next_state
         scores.append(score)
         print "episode:", e, "  score:", score
+        agent.save_model()
         # if np.mean(scores[-min(10, len(scores)):]) > 495:
         #     break
     return scores

@@ -35,13 +35,14 @@ def BreakOut_C51DQN(index, env):
         throw = True
         while not done:
             env.render()
-            action = 1 if throw else agent.noisy_action(state)
-            # action = 1 if throw else agent.egreedy_action(state)  # e-greedy action for train
+            action = 1 if throw else agent.greedy_action(state)
+            print 'action:', action
             next_state, real_reward, done, info = env.step(action)
             lives = info['ale.lives']
             train_reward = 1 if throw else -1 if lives < last_lives else real_reward
             score += real_reward
             throw = lives < last_lives
+            last_lives = lives
             agent.train(state, train_reward, [action], next_state, 0.1)
             state = next_state
         scores.append(score)

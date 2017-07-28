@@ -62,10 +62,9 @@ class C51DQN:
             # flatten = tf.reshape(relu5, [-1, np.prod(relu5.shape.as_list()[1:])])
             # print flatten.get_shape()
         with tf.variable_scope('concat'):
-            temp = tf.cast(action, tf.float32)
-            concated = tf.concat([flatten, temp], 1)
+            concatenated = tf.concat([flatten, tf.cast(action, tf.float32)], 1)
         with tf.variable_scope('dense1'):
-            dense1 = noisy_dense(concated, units_1, [units_1], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+            dense1 = noisy_dense(concatenated, units_1, [units_1], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
         with tf.variable_scope('dense2'):
             dense2 = noisy_dense(dense1, units_2, [units_2], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
         with tf.variable_scope('dense3'):
@@ -105,5 +104,10 @@ class C51DQN:
         self.saver.restore(self.sess, self.config.MODEL_PATH)
         print("Model restored.")
 
-    def noisy_action(self, s):
+    def greedy_action(self, s):
+        self.epsilon = max(self.config.FINAL_EPSILON, self.epsilon * self.config.EPSILIN_DECAY)
+        print 'self.epsilon:', self.epsilon
+        if random.random() <= self.epsilon:
+            return random.randint(0, self.action_dim - 1)
+        print 'self.action_dim:', self.action_dim
         return np.argmax([self.Q.eval(feed_dict={self.state_input: [s], self.action_input: [[a]]}) for a in range(self.action_dim)])

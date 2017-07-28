@@ -17,8 +17,8 @@ class C51DQNConfig:
     LEARNING_RATE = 0.01
     MODEL_PATH = './model/NoisyNetDQN_model'
 
-    INITIAL_EPSILON = 0.05  # starting value of epsilon
-    # FINAL_EPSILON = 0.01  # final value of epsilon
+    INITIAL_EPSILON = 0.9  # starting value of epsilon
+    FINAL_EPSILON = 0.05  # final value of epsilon
     EPSILIN_DECAY = 0.999
 
     replay_buffer_size = 2000

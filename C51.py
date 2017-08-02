@@ -40,7 +40,7 @@ class C51DQN:
 
         self.sess.run(tf.global_variables_initializer())
 
-        # self.save_model()
+        self.save_model()
         self.restore_model()
 
     @lazy_property

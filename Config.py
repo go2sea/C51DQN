@@ -14,7 +14,7 @@ class C51DQNConfig:
     BATCH_SIZE = 64  # size of minibatch
     UPDATE_TARGET_NET = 400  # update eval_network params every 200 steps
     LEARNING_RATE = 0.01
-    MODEL_PATH = './model/NoisyNetDQN_model'
+    MODEL_PATH = './model/C51DQN_model'
 
     INITIAL_EPSILON = 0.9  # starting value of epsilon
     FINAL_EPSILON = 0.05  # final value of epsilon

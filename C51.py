@@ -40,7 +40,7 @@ class C51DQN:
 
         self.sess.run(tf.global_variables_initializer())
 
-        self.save_model()
+        # self.save_model()
         self.restore_model()
 
     @lazy_property
@@ -61,14 +61,14 @@ class C51DQN:
             # flatten = tf.reshape(relu5, [-1, np.prod(relu5.get_shape().as_list()[1:])])
             # flatten = tf.reshape(relu5, [-1, np.prod(relu5.shape.as_list()[1:])])
             # print flatten.get_shape()
-        with tf.variable_scope('concat'):
-            concatenated = tf.concat([flatten, tf.cast(action, tf.float32)], 1)
         with tf.variable_scope('dense1'):
-            dense1 = noisy_dense(concatenated, units_1, [units_1], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+            dense1 = noisy_dense(flatten, units_1, [units_1], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
         with tf.variable_scope('dense2'):
             dense2 = noisy_dense(dense1, units_2, [units_2], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+        with tf.variable_scope('concat'):
+            concatenated = tf.concat([flatten, tf.cast(action, tf.float32)], 1)
         with tf.variable_scope('dense3'):
-            dense3 = noisy_dense(dense2, self.atoms, [self.atoms], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+            dense3 = noisy_dense(concatenated, self.atoms, [self.atoms], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
         return dense3
 
     @lazy_property

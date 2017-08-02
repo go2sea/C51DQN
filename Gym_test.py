@@ -54,6 +54,7 @@ def BreakOut_C51DQN(index, env):
                 items_buffer = []
         scores.append(score)
         print "episode:", e, "  score:", score
+        agent.save_model()
         # if np.mean(scores[-min(10, len(scores)):]) > 495:
         #     break
     return scores
@@ -63,13 +64,13 @@ if __name__ == '__main__':
     env = gym.make('Breakout-v0')
     # env = gym.make(NoisyNetDQNConfig.ENV_NAME)
     # env = wrappers.Monitor(env, '/tmp/CartPole-v0', force=True)
-    NoisyNetDQN_sum_scores = np.zeros(C51DQNConfig.episode)
+    C51DQN_sum_scores = np.zeros(C51DQNConfig.episode)
     for i in range(C51DQNConfig.iteration):
         scores = BreakOut_C51DQN(i, env)
-        c51_sum_scores = [a + b for a, b in zip(scores, NoisyNetDQN_sum_scores)]
-    NoisyNetDQN_mean_scores = NoisyNetDQN_sum_scores / C51DQNConfig.iteration
-    with open('/Users/mahailong/C51DQN/NoisyNetDQN_mean_scores.p', 'wb') as f:
-        pickle.dump(NoisyNetDQN_mean_scores, f, protocol=2)
+        c51_sum_scores = [a + b for a, b in zip(scores, C51DQN_sum_scores)]
+    C51DQN_mean_scores = C51DQN_sum_scores / C51DQNConfig.iteration
+    with open('/Users/mahailong/C51DQN/C51DQN_mean_scores.p', 'wb') as f:
+        pickle.dump(C51DQN_mean_scores, f, protocol=2)
 
     # map_scores(dqfd_scores=dqfd_mean_scores, ddqn_scores=ddqn_mean_scores,
         # xlabel='Red: dqfd         Blue: ddqn', ylabel='Scores')

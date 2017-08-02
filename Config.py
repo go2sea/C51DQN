@@ -6,7 +6,6 @@ class C51DQNConfig:
     v_max = 1000
     atoms = 51
 
-    
     # ENV_NAME = "CartPole-v1"
     ENV_NAME = 'Breakout-v0'  # 0: hold   1: throw the ball   2: move right   3: move left
     # ENV_NAME = "Freeway-v0"
@@ -19,7 +18,7 @@ class C51DQNConfig:
 
     INITIAL_EPSILON = 0.9  # starting value of epsilon
     FINAL_EPSILON = 0.05  # final value of epsilon
-    EPSILIN_DECAY = 0.999
+    EPSILIN_DECAY = 0.9999
 
     replay_buffer_size = 2000
     iteration = 5

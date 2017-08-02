@@ -66,7 +66,7 @@ class C51DQN:
         with tf.variable_scope('dense2'):
             dense2 = noisy_dense(dense1, units_2, [units_2], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
         with tf.variable_scope('concat'):
-            concatenated = tf.concat([flatten, tf.cast(action, tf.float32)], 1)
+            concatenated = tf.concat([dense2, tf.cast(action, tf.float32)], 1)
         with tf.variable_scope('dense3'):
             dense3 = noisy_dense(concatenated, self.atoms, [self.atoms], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
         return dense3

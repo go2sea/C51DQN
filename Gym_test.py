@@ -33,6 +33,7 @@ def BreakOut_C51DQN(index, env):
         # while done is False:
         last_lives = 5
         throw = True
+        items_buffer = []
         while not done:
             env.render()
             action = 1 if throw else agent.greedy_action(state)
@@ -43,8 +44,14 @@ def BreakOut_C51DQN(index, env):
             score += real_reward
             throw = lives < last_lives
             last_lives = lives
-            agent.train(state, train_reward, [action], next_state, 0.1)
+            # agent.train(state, train_reward, [action], next_state, 0.1)
+            items_buffer.append([state, [action], next_state, 0.1])
             state = next_state
+            if throw or real_reward > 0:  # train when miss or scores
+                print 'len(items_buffer):', len(items_buffer)
+                for item in items_buffer:
+                    agent.train(item[0], -1 if throw else real_reward, item[1], item[2], item[3])
+                items_buffer = []
         scores.append(score)
         print "episode:", e, "  score:", score
         # if np.mean(scores[-min(10, len(scores)):]) > 495:

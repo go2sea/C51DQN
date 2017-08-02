@@ -4,7 +4,7 @@ import numpy as np
 import random
 from collections import deque
 from Config import C51DQNConfig
-from myUtils import lazy_property, conv, noisy_dense
+from myUtils import lazy_property, conv, dense
 import math
 
 
@@ -62,13 +62,13 @@ class C51DQN:
             # flatten = tf.reshape(relu5, [-1, np.prod(relu5.shape.as_list()[1:])])
             # print flatten.get_shape()
         with tf.variable_scope('dense1'):
-            dense1 = noisy_dense(flatten, units_1, [units_1], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+            dense1 = dense(flatten, units_1, [units_1], w_i, b_i)
         with tf.variable_scope('dense2'):
-            dense2 = noisy_dense(dense1, units_2, [units_2], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+            dense2 = dense(dense1, units_2, [units_2], w_i, b_i)
         with tf.variable_scope('concat'):
             concatenated = tf.concat([dense2, tf.cast(action, tf.float32)], 1)
         with tf.variable_scope('dense3'):
-            dense3 = noisy_dense(concatenated, self.atoms, [self.atoms], c_names, w_i, b_i, noisy_distribution=self.config.noisy_distribution)
+            dense3 = dense(concatenated, self.atoms, [self.atoms], w_i, b_i)
         return dense3
 
     @lazy_property

@@ -14,3 +14,9 @@
     
 ##### Note: The train-reward is equal to the real-reward in most of the time. But in the beginning of the new live, Its obvious the action should be throwing the ball. So the train-reward should be 1 in spite of the real-reward of throwing is zero. And the train-reward is -1 when you miss the ball.
 
+##### Train the net only when we score or miss the ball.
+    if train_reward != 0:  # train when miss the ball or score or throw the ball in the beginning
+        print 'len(items_buffer):', len(items_buffer)
+        for item in items_buffer:
+            agent.train(item[0], -1 if throw else train_reward, item[1], item[2], item[3])
+        items_buffer = []            

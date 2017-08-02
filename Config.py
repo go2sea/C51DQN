@@ -24,8 +24,3 @@ class C51DQNConfig:
     iteration = 5
     episode = 300  # 300 games per iteration
 
-    noisy_distribution = 'factorised'  # independent or factorised
-
-
-
-

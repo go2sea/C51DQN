@@ -83,11 +83,13 @@ class C51DQN:
         list_Q_ = [self.Q.eval(feed_dict={self.state_input: [s_], self.action_input: [[a]]}) for a in range(self.action_dim)]
         a_ = tf.argmax(list_Q_).eval()
         m = np.zeros(self.atoms)
+        p = self.p.eval(feed_dict={self.state_input: [s_], self.action_input: [[a_]]})[0]
         for j in range(self.atoms):
             Tz = min(self.v_max, max(self.v_min, r + gamma * self.z[j]))
             bj = (Tz - self.v_min) / self.delta_z
             l, u = math.floor(bj), math.ceil(bj)
-            pj = self.p.eval(feed_dict={self.state_input: [s_], self.action_input: [[a_]]})[0][j]
+#            pj = self.p.eval(feed_dict={self.state_input: [s_], self.action_input: [[a_]]})[0][j]
+            pj = p[j]
             m[int(l)] += pj * (u - bj)
             m[int(u)] += pj * (bj - l)
         self.sess.run(self.optimize, feed_dict={self.state_input: [s], self.action_input: [action], self.m_input: m})

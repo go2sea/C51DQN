@@ -60,7 +60,7 @@ class C51DQN:
             # 两种reshape写法
             # flatten = tf.reshape(relu5, [-1, np.prod(relu5.get_shape().as_list()[1:])])
             # flatten = tf.reshape(relu5, [-1, np.prod(relu5.shape.as_list()[1:])])
-            # print flatten.get_shape()
+            # print(flatten.get_shape())
         with tf.variable_scope('dense1'):
             dense1 = dense(flatten, units_1, [units_1], w_i, b_i)
         with tf.variable_scope('dense2'):
@@ -108,8 +108,8 @@ class C51DQN:
 
     def greedy_action(self, s):
         self.epsilon = max(self.config.FINAL_EPSILON, self.epsilon * self.config.EPSILIN_DECAY)
-        print 'self.epsilon:', self.epsilon
+        print('self.epsilon:', self.epsilon)
         if random.random() <= self.epsilon:
             return random.randint(0, self.action_dim - 1)
-        print 'self.action_dim:', self.action_dim
+        print('self.action_dim:', self.action_dim)
         return np.argmax([self.Q.eval(feed_dict={self.state_input: [s], self.action_input: [[a]]}) for a in range(self.action_dim)])
